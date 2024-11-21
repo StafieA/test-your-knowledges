@@ -1,9 +1,35 @@
 import logo from "./logo.svg";
+import { useEffect, useReducer } from "react";
 import "./index.css";
 import Header from "./Header.js";
 import Main from "./Main.js";
 
+const initialState = {
+  questions: [],
+  //'loading','error', ready, active, finished;
+  status: "loading",
+};
+function reducer(state, action) {
+  switch (action.type) {
+    case "dataReceived":
+      return { ...state, questions: action.payload, status: "ready" };
+
+    case "dataFailed":
+      return { ...state, status: "error" };
+    default:
+      throw new Error("action is unknown");
+  }
+}
+
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(function () {
+    fetch("http://localhost:8000/questions")
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      .catch((err) => dispatch({ type: "dataFailed" }));
+  }, []);
   return (
     <div className="app">
       <Header />
