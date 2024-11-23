@@ -11,7 +11,7 @@ function FinishScreen({ points, maxPoints, highscore, dispatch }) {
     <>
       {" "}
       <p className="result">
-        <span>{emoji}</span> You scored <strong>{points}</strong>out of{" "}
+        <span>{emoji}</span> You scored <strong>{points}</strong> out of{" "}
         {maxPoints} ({percentage}%)
       </p>
       <p className="highscore">{`Highscore: ${highscore} points`}</p>
